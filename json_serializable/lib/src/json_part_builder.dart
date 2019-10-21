@@ -20,3 +20,10 @@ Builder jsonPartBuilder(
       JsonSerializableGenerator(config: config),
       const JsonLiteralGenerator()
     ], 'json_serializable', formatOutput: formatOutput);
+
+Builder jsonPatchBuilder(
+        {String formatOutput(String code), JsonSerializable config}) =>
+    LibraryBuilder(
+        JsonSerializableGenerator(config: config, generatePatch: true),
+        generatedExtension: '.json_serializable.patch',
+        formatOutput: formatOutput);

@@ -53,6 +53,8 @@ class JsonSerializableGenerator
 
   JsonSerializable get config => _config.withDefaults();
 
+  final bool _generatePatch;
+
   /// Creates an instance of [JsonSerializableGenerator].
   ///
   /// If [typeHelpers] is not provided, the built-in helpers are used:
@@ -61,8 +63,10 @@ class JsonSerializableGenerator
   const JsonSerializableGenerator({
     JsonSerializable config,
     List<TypeHelper> typeHelpers,
+    bool generatePatch,
   })  : _config = config ?? JsonSerializable.defaults,
-        _typeHelpers = typeHelpers ?? _defaultHelpers;
+        _typeHelpers = typeHelpers ?? _defaultHelpers,
+        _generatePatch = generatePatch ?? false;
 
   /// Creates an instance of [JsonSerializableGenerator].
   ///
@@ -89,17 +93,20 @@ class JsonSerializableGenerator
     }
 
     final classElement = element as ClassElement;
-    final helper = _GeneratorHelper(this, classElement, annotation);
-    return helper._generate();
+    final helper =
+        _GeneratorHelper(this, _generatePatch, classElement, annotation);
+    final result = helper._generate().toList();
+    return result;
   }
 }
 
 class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
   final JsonSerializableGenerator _generator;
   final _addedMembers = <String>{};
+  final bool _generatePatch;
 
-  _GeneratorHelper(
-      this._generator, ClassElement element, ConstantReader annotation)
+  _GeneratorHelper(this._generator, this._generatePatch, ClassElement element,
+      ConstantReader annotation)
       : super(element, mergeConfig(_generator.config, annotation));
 
   @override
@@ -111,6 +118,9 @@ class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
   Iterable<TypeHelper> get allTypeHelpers => _generator._allHelpers;
 
   Iterable<String> _generate() sync* {
+    if (_generatePatch) {
+      yield "import 'package:json_annotation/json_annotation.dart';";
+    }
     assert(_addedMembers.isEmpty);
     final sortedFields = createSortedFieldSet(element);
 
@@ -139,8 +149,12 @@ class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
     });
 
     var accessibleFieldSet = accessibleFields.values.toSet();
+    if (_generatePatch) {
+      yield '@patch\nclass ${element.name} {';
+    }
     if (config.createFactory) {
-      final createResult = createFactory(accessibleFields, unavailableReasons);
+      final createResult =
+          createFactory(accessibleFields, unavailableReasons, _generatePatch);
       yield createResult.output;
 
       accessibleFieldSet = accessibleFields.entries
@@ -164,9 +178,13 @@ class _GeneratorHelper extends HelperCore with EncodeHelper, DecodeHelper {
     });
 
     if (config.createToJson) {
-      yield* createToJson(accessibleFieldSet);
+      yield* createToJson(accessibleFieldSet, _generatePatch);
     }
 
     yield* _addedMembers;
+
+    if (_generatePatch) {
+      yield '} // ${element.name}';
+    }
   }
 }

@@ -23,13 +23,17 @@ abstract class DecodeHelper implements HelperCore {
   final StringBuffer _buffer = StringBuffer();
 
   CreateFactoryResult createFactory(Map<String, FieldElement> accessibleFields,
-      Map<String, String> unavailableReasons) {
+      Map<String, String> unavailableReasons, bool generatePatch) {
     assert(config.createFactory);
     assert(_buffer.isEmpty);
 
+    if (generatePatch) _buffer.writeln('@patch');
+
     final mapType = config.anyMap ? 'Map' : 'Map<String, dynamic>';
-    _buffer.write('$targetClassReference '
-        '${prefix}FromJson${genericClassArgumentsImpl(true)}'
+    final fromJsonName = generatePatch
+        ? 'factory ${element.name}.fromJson'
+        : '$targetClassReference ${prefix}FromJson${genericClassArgumentsImpl(true)}';
+    _buffer.write('$fromJsonName'
         '($mapType json) {\n');
 
     String deserializeFun(String paramOrFieldName,

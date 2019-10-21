@@ -11,35 +11,44 @@ import 'type_helpers/json_converter_helper.dart';
 import 'unsupported_type_error.dart';
 
 abstract class EncodeHelper implements HelperCore {
-  String _fieldAccess(FieldElement field) => '$_toJsonParamName.${field.name}';
+  String _fieldAccess(FieldElement field, String instanceName) =>
+      '$instanceName.${field.name}';
 
-  Iterable<String> createToJson(Set<FieldElement> accessibleFields) sync* {
+  Iterable<String> createToJson(
+      Set<FieldElement> accessibleFields, bool generatePatch) sync* {
     assert(config.createToJson);
 
     final buffer = StringBuffer();
+    if (generatePatch) buffer.writeln('@patch');
 
-    final functionName = '${prefix}ToJson${genericClassArgumentsImpl(true)}';
+    final classArguments = genericClassArgumentsImpl(true);
+
+    final functionName = generatePatch
+        ? 'toJson$classArguments'
+        : '${prefix}ToJson$classArguments';
+    final instanceName = generatePatch ? 'this' : 'instance';
     buffer.write('Map<String, dynamic> $functionName'
-        '($targetClassReference $_toJsonParamName) ');
+        '(${generatePatch ? "" : "$targetClassReference $instanceName"}) ');
 
     final writeNaive = accessibleFields.every(_writeJsonValueNaive);
 
     if (writeNaive) {
       // write simple `toJson` method that includes all keys...
-      _writeToJsonSimple(buffer, accessibleFields);
+      _writeToJsonSimple(buffer, accessibleFields, instanceName);
     } else {
       // At least one field should be excluded if null
-      _writeToJsonWithNullChecks(buffer, accessibleFields);
+      _writeToJsonWithNullChecks(buffer, accessibleFields, instanceName);
     }
 
     yield buffer.toString();
   }
 
-  void _writeToJsonSimple(StringBuffer buffer, Iterable<FieldElement> fields) {
+  void _writeToJsonSimple(
+      StringBuffer buffer, Iterable<FieldElement> fields, String instanceName) {
     buffer.writeln('=> <String, dynamic>{');
 
     buffer.writeAll(fields.map((field) {
-      final access = _fieldAccess(field);
+      final access = _fieldAccess(field, instanceName);
       final value =
           '${safeNameAccess(field)}: ${_serializeField(field, access)}';
       return '        $value,\n';
@@ -48,10 +57,8 @@ abstract class EncodeHelper implements HelperCore {
     buffer.writeln('};');
   }
 
-  static const _toJsonParamName = 'instance';
-
   void _writeToJsonWithNullChecks(
-      StringBuffer buffer, Iterable<FieldElement> fields) {
+      StringBuffer buffer, Iterable<FieldElement> fields, String instanceName) {
     buffer.writeln('{');
 
     buffer.writeln('    final $generatedLocalVarName = <String, dynamic>{');
@@ -63,7 +70,7 @@ abstract class EncodeHelper implements HelperCore {
     var directWrite = true;
 
     for (final field in fields) {
-      var safeFieldAccess = _fieldAccess(field);
+      var safeFieldAccess = _fieldAccess(field, instanceName);
       final safeJsonKeyString = safeNameAccess(field);
 
       // If `fieldName` collides with one of the local helpers, prefix
