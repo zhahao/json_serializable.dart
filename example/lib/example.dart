@@ -4,16 +4,18 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'example.g.dart';
+abstract class Serializable {
+  external Map<String, dynamic> toJson();
+}
 
 @JsonSerializable()
-class Person {
+class Person extends Object with Serializable {
   final String firstName;
   @JsonKey(includeIfNull: false)
   final String middleName;
   final String lastName;
 
-  @JsonKey(name: 'date-of-birth', nullable: false)
+  @JsonKey(name: 'date-of-foo', nullable: false)
   final DateTime dateOfBirth;
 
   @JsonKey(name: 'last-order')
@@ -26,9 +28,7 @@ class Person {
       {this.middleName, this.lastOrder, List<Order> orders})
       : orders = orders ?? <Order>[];
 
-  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PersonToJson(this);
+  external factory Person.fromJson(Map<String, dynamic> json);
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -49,9 +49,9 @@ class Order {
 
   Order(this.date);
 
-  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+  external factory Order.fromJson(Map<String, dynamic> json);
 
-  Map<String, dynamic> toJson() => _$OrderToJson(this);
+  external Map<String, dynamic> toJson();
 
   static Duration _durationFromMilliseconds(int milliseconds) =>
       milliseconds == null ? null : Duration(milliseconds: milliseconds);
@@ -74,10 +74,10 @@ class Item {
 
   Item();
 
-  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+  external factory Item.fromJson(Map<String, dynamic> json);
 
-  Map<String, dynamic> toJson() => _$ItemToJson(this);
+  external Map<String, dynamic> toJson();
 }
 
-@JsonLiteral('data.json')
-Map get glossaryData => _$glossaryDataJsonLiteral;
+// @JsonLiteral('data.json')
+// Map get glossaryData => _$glossaryDataJsonLiteral;

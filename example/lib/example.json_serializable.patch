@@ -1,0 +1,100 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+import 'package:json_annotation/json_annotation.dart';
+
+@patch
+class Person {
+  @patch
+  factory Person.fromJson(Map<String, dynamic> json) {
+    return Person(
+      json['firstName'] as String,
+      json['lastName'] as String,
+      DateTime.parse(json['date-of-foo'] as String),
+      middleName: json['middleName'] as String,
+      lastOrder: json['last-order'] == null
+          ? null
+          : DateTime.parse(json['last-order'] as String),
+      orders: (json['orders'] as List)
+          .map((e) => Order.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  @patch
+  Map<String, dynamic> toJson() {
+    final val = <String, dynamic>{
+      'firstName': this.firstName,
+    };
+
+    void writeNotNull(String key, dynamic value) {
+      if (value != null) {
+        val[key] = value;
+      }
+    }
+
+    writeNotNull('middleName', this.middleName);
+    val['lastName'] = this.lastName;
+    val['date-of-foo'] = this.dateOfBirth.toIso8601String();
+    val['last-order'] = this.lastOrder?.toIso8601String();
+    val['orders'] = this.orders;
+    return val;
+  }
+} // Person
+
+@patch
+class Order {
+  @patch
+  factory Order.fromJson(Map<String, dynamic> json) {
+    return Order(
+      Order._dateTimeFromEpochUs(json['date'] as int),
+    )
+      ..count = json['count'] as int
+      ..itemNumber = json['itemNumber'] as int
+      ..isRushed = json['isRushed'] as bool
+      ..item = json['item'] == null
+          ? null
+          : Item.fromJson(json['item'] as Map<String, dynamic>)
+      ..prepTime = Order._durationFromMilliseconds(json['prep-time'] as int);
+  }
+
+  @patch
+  Map<String, dynamic> toJson() {
+    final val = <String, dynamic>{};
+
+    void writeNotNull(String key, dynamic value) {
+      if (value != null) {
+        val[key] = value;
+      }
+    }
+
+    writeNotNull('count', this.count);
+    writeNotNull('itemNumber', this.itemNumber);
+    writeNotNull('isRushed', this.isRushed);
+    writeNotNull('item', this.item);
+    writeNotNull('prep-time', Order._durationToMilliseconds(this.prepTime));
+    writeNotNull('date', Order._dateTimeToEpochUs(this.date));
+    return val;
+  }
+} // Order
+
+@patch
+class Item {
+  @patch
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item()
+      ..count = json['count'] as int
+      ..itemNumber = json['itemNumber'] as int
+      ..isRushed = json['isRushed'] as bool;
+  }
+
+  @patch
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'count': this.count,
+        'itemNumber': this.itemNumber,
+        'isRushed': this.isRushed,
+      };
+} // Item

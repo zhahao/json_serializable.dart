@@ -24,11 +24,13 @@ void main() {
     expect(person.orders.single.item.count, 42);
 
     expect(_encode(person2), equals(personJson));
+
+    expect(json.decode(personJson)['date-of-foo'], isNotNull);
   });
 
-  test('JsonLiteral', () {
-    expect(glossaryData, hasLength(1));
-  });
+  // test('JsonLiteral', () {
+  //   expect(glossaryData, hasLength(1));
+  // });
 }
 
 String _encode(Object object) =>

@@ -17,5 +17,9 @@ dev_dependencies:
   test: ^1.6.0
 
 dependency_overrides:
+  json_annotation:
+    path: ../json_annotation
   json_serializable:
     path: ../json_serializable
+  source_gen:
+    path: ../../source_gen/source_gen

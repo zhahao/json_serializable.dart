@@ -1,0 +1,46 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+import 'package:json_annotation/json_annotation.dart';
+
+@patch
+class GenericCollection {
+  @patch
+  factory GenericCollection.fromJson(Map<String, dynamic> json) {
+    return GenericCollection<T>(
+      page: json['page'] as int,
+      totalResults: json['total_results'] as int,
+      totalPages: json['total_pages'] as int,
+      results:
+          (json['results'] as List)?.map(_Converter<T>().fromJson)?.toList(),
+    );
+  }
+
+  @patch
+  Map<String, dynamic> toJson<T>() => <String, dynamic>{
+        'page': this.page,
+        'total_results': this.totalResults,
+        'total_pages': this.totalPages,
+        'results': this.results?.map(_Converter<T>().toJson)?.toList(),
+      };
+} // GenericCollection
+
+@patch
+class CustomResult {
+  @patch
+  factory CustomResult.fromJson(Map<String, dynamic> json) {
+    return CustomResult(
+      json['name'] as String,
+      json['size'] as int,
+    );
+  }
+
+  @patch
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'name': this.name,
+        'size': this.size,
+      };
+} // CustomResult

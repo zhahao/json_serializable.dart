@@ -4,8 +4,6 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'json_converter_example.g.dart';
-
 @JsonSerializable()
 class GenericCollection<T> {
   @JsonKey(name: 'page')
@@ -24,10 +22,9 @@ class GenericCollection<T> {
   GenericCollection(
       {this.page, this.totalResults, this.totalPages, this.results});
 
-  factory GenericCollection.fromJson(Map<String, dynamic> json) =>
-      _$GenericCollectionFromJson<T>(json);
+  external factory GenericCollection.fromJson(Map<String, dynamic> json);
 
-  Map<String, dynamic> toJson() => _$GenericCollectionToJson(this);
+  external Map<String, dynamic> toJson();
 }
 
 class _Converter<T> implements JsonConverter<T, Object> {
@@ -62,10 +59,9 @@ class CustomResult {
 
   CustomResult(this.name, this.size);
 
-  factory CustomResult.fromJson(Map<String, dynamic> json) =>
-      _$CustomResultFromJson(json);
+  external factory CustomResult.fromJson(Map<String, dynamic> json);
 
-  Map<String, dynamic> toJson() => _$CustomResultToJson(this);
+  external Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) =>
