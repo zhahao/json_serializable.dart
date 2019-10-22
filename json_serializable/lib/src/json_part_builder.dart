@@ -25,5 +25,5 @@ Builder jsonPatchBuilder(
         {String formatOutput(String code), JsonSerializable config}) =>
     LibraryBuilder(
         JsonSerializableGenerator(config: config, generatePatch: true),
-        generatedExtension: '.json_serializable.patch',
+        generatedExtension: '.dart.patch',
         formatOutput: formatOutput);

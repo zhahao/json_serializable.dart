@@ -57,6 +57,6 @@ builders:
   json_serializable:
     import: "package:json_serializable/builder.dart"
     builder_factories: ["jsonSerializable"]
-    build_extensions: {".dart": [".dart.json_serializable.patch"]}
+    build_extensions: {".dart": [".dart.patch"]}
     auto_apply: dependents
     build_to: source
