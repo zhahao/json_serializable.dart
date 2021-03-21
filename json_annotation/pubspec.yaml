@@ -11,3 +11,6 @@ environment:
 # dev_dependencies:
 #   build_runner: ^1.0.0
 #   json_serializable: ^3.1.0
+
+dependencies:
+  build_config: '>=0.2.6 <0.5.0'
