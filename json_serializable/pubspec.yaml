@@ -16,11 +16,11 @@ dependencies:
   # `json_annotation` properly constrains all features it provides.
   # For v3 only – allow a wide range since the only change was to REMOVE things
   # from json_annotation
-  json_annotation:
-    git:
-      url: git@github.com:zhahao/json_serializable.dart.git
-      path: json_annotation/
-      ref: 'json_annotation-v3.1.1_value_safety'
+#  json_annotation:
+#    git:
+#      url: git@github.com:zhahao/json_serializable.dart.git
+#      path: json_annotation/
+#      ref: 'json_annotation-v3.1.1_value_safety'
 
   meta: ^1.1.0
   path: ^1.3.2
