@@ -13,4 +13,7 @@ environment:
 #   json_serializable: ^3.1.0
 
 dependencies:
+  analyzer: '>=0.39.0 <0.42.0'
+  build: '>=0.12.6 <2.0.0'
   build_config: '>=0.2.6 <0.5.0'
+  source_gen: ^0.9.6
