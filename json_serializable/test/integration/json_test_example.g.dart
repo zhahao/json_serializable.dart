@@ -8,10 +8,10 @@ part of 'json_test_example.dart';
 
 Person _$PersonFromJson(Map<String, dynamic> json) {
   return Person(
-    json['firstName'] as String,
-    json['lastName'] as String,
+    JsonSerializableSafety.jsonToString(json['firstName']),
+    JsonSerializableSafety.jsonToString(json['lastName']),
     _$enumDecodeNullable(_$CategoryEnumMap, json[r'$house']),
-    middleName: json['middleName'] as String,
+    middleName: JsonSerializableSafety.jsonToString(json['middleName']),
     dateOfBirth: json['dateOfBirth'] == null
         ? null
         : DateTime.parse(json['dateOfBirth'] as String),
@@ -29,7 +29,8 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, _$enumDecodeNullable(_$CategoryEnumMap, e)),
     )
     ..categoryCounts = (json['categoryCounts'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(_$enumDecodeNullable(_$CategoryEnumMap, k), e as int),
+      (k, e) => MapEntry(_$enumDecodeNullable(_$CategoryEnumMap, k),
+          JsonSerializableSafety.jsonToInt(e)),
     );
 }
 
@@ -96,16 +97,21 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
     (json['items'] as List)?.map(
         (e) => e == null ? null : Item.fromJson(e as Map<String, dynamic>)),
   )
-    ..count = json['count'] as int
-    ..isRushed = json['isRushed'] as bool
+    ..count = JsonSerializableSafety.jsonToInt(json['count'])
+    ..isRushed = JsonSerializableSafety.jsonToBool(json['isRushed'])
     ..duration = json['duration'] == null
         ? null
         : Duration(microseconds: json['duration'] as int)
     ..platform = json['platform'] == null
         ? null
-        : Platform.fromJson(json['platform'] as String)
+        : Platform.fromJson(
+            JsonSerializableSafety.jsonToString(json['platform']))
     ..altPlatforms = (json['altPlatforms'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e == null ? null : Platform.fromJson(e as String)),
+      (k, e) => MapEntry(
+          k,
+          e == null
+              ? null
+              : Platform.fromJson(JsonSerializableSafety.jsonToString(e))),
     )
     ..homepage =
         json['homepage'] == null ? null : Uri.parse(json['homepage'] as String)
@@ -145,13 +151,15 @@ const _$StatusCodeEnumMap = {
 
 Item _$ItemFromJson(Map<String, dynamic> json) {
   return Item(
-    json['price'] as int,
+    JsonSerializableSafety.jsonToInt(json['price']),
   )
-    ..itemNumber = json['item-number'] as int
+    ..itemNumber = JsonSerializableSafety.jsonToInt(json['item-number'])
     ..saleDates = (json['saleDates'] as List)
         ?.map((e) => e == null ? null : DateTime.parse(e as String))
         ?.toList()
-    ..rates = (json['rates'] as List)?.map((e) => e as int)?.toList();
+    ..rates = (json['rates'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToInt(e))
+        ?.toList();
 }
 
 Map<String, dynamic> _$ItemToJson(Item instance) {
@@ -174,8 +182,12 @@ Map<String, dynamic> _$ItemToJson(Item instance) {
 
 Numbers _$NumbersFromJson(Map<String, dynamic> json) {
   return Numbers()
-    ..ints = (json['ints'] as List)?.map((e) => e as int)?.toList()
-    ..nums = (json['nums'] as List)?.map((e) => e as num)?.toList()
+    ..ints = (json['ints'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToInt(e))
+        ?.toList()
+    ..nums = (json['nums'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToNum(e))
+        ?.toList()
     ..doubles =
         (json['doubles'] as List)?.map((e) => (e as num)?.toDouble())?.toList()
     ..nnDoubles =
@@ -196,16 +208,17 @@ Map<String, dynamic> _$NumbersToJson(Numbers instance) => <String, dynamic>{
 MapKeyVariety _$MapKeyVarietyFromJson(Map<String, dynamic> json) {
   return MapKeyVariety()
     ..intIntMap = (json['intIntMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(int.parse(k), e as int),
+      (k, e) => MapEntry(int.parse(k), JsonSerializableSafety.jsonToInt(e)),
     )
     ..uriIntMap = (json['uriIntMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(Uri.parse(k), e as int),
+      (k, e) => MapEntry(Uri.parse(k), JsonSerializableSafety.jsonToInt(e)),
     )
     ..dateTimeIntMap = (json['dateTimeIntMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(DateTime.parse(k), e as int),
+      (k, e) =>
+          MapEntry(DateTime.parse(k), JsonSerializableSafety.jsonToInt(e)),
     )
     ..bigIntMap = (json['bigIntMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(BigInt.parse(k), e as int),
+      (k, e) => MapEntry(BigInt.parse(k), JsonSerializableSafety.jsonToInt(e)),
     );
 }
 

@@ -43,10 +43,16 @@ class ValueHelper extends TypeHelper {
       // 兼容性判断
       String value;
       if (targetType.isDartCoreInt) {
-        value = '';
-      }else if (targetType.isDartCoreBool) {
-
-      }else {
+        value = 'JsonSerializableSafety.jsonToInt($expression)';
+      } else if (targetType.isDartCoreDouble) {
+        value = 'JsonSerializableSafety.jsonToDouble($expression)';
+      } else if (targetType.isDartCoreBool) {
+        value = 'JsonSerializableSafety.jsonToBool($expression)';
+      } else if (targetType.isDartCoreNum) {
+        value = 'JsonSerializableSafety.jsonToNum($expression)';
+      } else if (targetType.isDartCoreString) {
+        value = 'JsonSerializableSafety.jsonToString($expression)';
+      } else {
         value = '$expression as $typeCode';
       }
       return value;

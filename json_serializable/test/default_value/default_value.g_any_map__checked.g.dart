@@ -9,11 +9,15 @@ part of 'default_value.g_any_map__checked.dart';
 DefaultValue _$DefaultValueFromJson(Map json) {
   return $checkedNew('DefaultValue', json, () {
     final val = DefaultValue();
+    $checkedConvert(json, 'fieldBool',
+        (v) => val.fieldBool = JsonSerializableSafety.jsonToBool(v) ?? true);
     $checkedConvert(
-        json, 'fieldBool', (v) => val.fieldBool = v as bool ?? true);
-    $checkedConvert(
-        json, 'fieldString', (v) => val.fieldString = v as String ?? 'string');
-    $checkedConvert(json, 'fieldInt', (v) => val.fieldInt = v as int ?? 42);
+        json,
+        'fieldString',
+        (v) => val.fieldString =
+            JsonSerializableSafety.jsonToString(v) ?? 'string');
+    $checkedConvert(json, 'fieldInt',
+        (v) => val.fieldInt = JsonSerializableSafety.jsonToInt(v) ?? 42);
     $checkedConvert(json, 'fieldDouble',
         (v) => val.fieldDouble = (v as num)?.toDouble() ?? 3.14);
     $checkedConvert(
@@ -25,19 +29,23 @@ DefaultValue _$DefaultValueFromJson(Map json) {
     $checkedConvert(
         json,
         'fieldListSimple',
-        (v) => val.fieldListSimple =
-            (v as List)?.map((e) => e as int)?.toList() ?? [1, 2, 3]);
+        (v) => val.fieldListSimple = (v as List)
+                ?.map((e) => JsonSerializableSafety.jsonToInt(e))
+                ?.toList() ??
+            [1, 2, 3]);
     $checkedConvert(
         json,
         'fieldSetSimple',
-        (v) => val.fieldSetSimple =
-            (v as List)?.map((e) => e as String)?.toSet() ??
-                {'entry1', 'entry2'});
+        (v) => val.fieldSetSimple = (v as List)
+                ?.map((e) => JsonSerializableSafety.jsonToString(e))
+                ?.toSet() ??
+            {'entry1', 'entry2'});
     $checkedConvert(
         json,
         'fieldMapSimple',
         (v) => val.fieldMapSimple = (v as Map)?.map(
-              (k, e) => MapEntry(k as String, e as int),
+              (k, e) =>
+                  MapEntry(k as String, JsonSerializableSafety.jsonToInt(e)),
             ) ??
             {'answer': 42});
     $checkedConvert(
@@ -45,7 +53,10 @@ DefaultValue _$DefaultValueFromJson(Map json) {
         'fieldMapListString',
         (v) => val.fieldMapListString = (v as Map)?.map(
               (k, e) => MapEntry(
-                  k as String, (e as List)?.map((e) => e as String)?.toList()),
+                  k as String,
+                  (e as List)
+                      ?.map((e) => JsonSerializableSafety.jsonToString(e))
+                      ?.toList()),
             ) ??
             {
               'root': ['child']

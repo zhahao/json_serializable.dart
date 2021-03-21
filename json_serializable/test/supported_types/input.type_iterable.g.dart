@@ -36,8 +36,8 @@ Map<String, dynamic> _$SimpleClassBigIntToJson(SimpleClassBigInt instance) =>
 
 SimpleClassBool _$SimpleClassBoolFromJson(Map<String, dynamic> json) {
   return SimpleClassBool(
-    (json['value'] as List)?.map((e) => e as bool),
-    (json['nullable'] as List).map((e) => e as bool),
+    (json['value'] as List)?.map((e) => JsonSerializableSafety.jsonToBool(e)),
+    (json['nullable'] as List).map((e) => JsonSerializableSafety.jsonToBool(e)),
   );
 }
 
@@ -159,8 +159,8 @@ const _$EnumTypeEnumMap = {
 
 SimpleClassInt _$SimpleClassIntFromJson(Map<String, dynamic> json) {
   return SimpleClassInt(
-    (json['value'] as List)?.map((e) => e as int),
-    (json['nullable'] as List).map((e) => e as int),
+    (json['value'] as List)?.map((e) => JsonSerializableSafety.jsonToInt(e)),
+    (json['nullable'] as List).map((e) => JsonSerializableSafety.jsonToInt(e)),
   );
 }
 
@@ -172,8 +172,8 @@ Map<String, dynamic> _$SimpleClassIntToJson(SimpleClassInt instance) =>
 
 SimpleClassNum _$SimpleClassNumFromJson(Map<String, dynamic> json) {
   return SimpleClassNum(
-    (json['value'] as List)?.map((e) => e as num),
-    (json['nullable'] as List).map((e) => e as num),
+    (json['value'] as List)?.map((e) => JsonSerializableSafety.jsonToNum(e)),
+    (json['nullable'] as List).map((e) => JsonSerializableSafety.jsonToNum(e)),
   );
 }
 
@@ -198,8 +198,9 @@ Map<String, dynamic> _$SimpleClassObjectToJson(SimpleClassObject instance) =>
 
 SimpleClassString _$SimpleClassStringFromJson(Map<String, dynamic> json) {
   return SimpleClassString(
-    (json['value'] as List)?.map((e) => e as String),
-    (json['nullable'] as List).map((e) => e as String),
+    (json['value'] as List)?.map((e) => JsonSerializableSafety.jsonToString(e)),
+    (json['nullable'] as List)
+        .map((e) => JsonSerializableSafety.jsonToString(e)),
   );
 }
 

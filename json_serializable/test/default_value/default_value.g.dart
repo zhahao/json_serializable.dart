@@ -8,27 +8,33 @@ part of 'default_value.dart';
 
 DefaultValue _$DefaultValueFromJson(Map<String, dynamic> json) {
   return DefaultValue()
-    ..fieldBool = json['fieldBool'] as bool ?? true
-    ..fieldString = json['fieldString'] as String ?? 'string'
-    ..fieldInt = json['fieldInt'] as int ?? 42
+    ..fieldBool = JsonSerializableSafety.jsonToBool(json['fieldBool']) ?? true
+    ..fieldString =
+        JsonSerializableSafety.jsonToString(json['fieldString']) ?? 'string'
+    ..fieldInt = JsonSerializableSafety.jsonToInt(json['fieldInt']) ?? 42
     ..fieldDouble = (json['fieldDouble'] as num)?.toDouble() ?? 3.14
     ..fieldListEmpty = json['fieldListEmpty'] as List ?? []
     ..fieldSetEmpty = (json['fieldSetEmpty'] as List)?.toSet() ?? {}
     ..fieldMapEmpty = json['fieldMapEmpty'] as Map<String, dynamic> ?? {}
-    ..fieldListSimple =
-        (json['fieldListSimple'] as List)?.map((e) => e as int)?.toList() ??
-            [1, 2, 3]
-    ..fieldSetSimple =
-        (json['fieldSetSimple'] as List)?.map((e) => e as String)?.toSet() ??
-            {'entry1', 'entry2'}
+    ..fieldListSimple = (json['fieldListSimple'] as List)
+            ?.map((e) => JsonSerializableSafety.jsonToInt(e))
+            ?.toList() ??
+        [1, 2, 3]
+    ..fieldSetSimple = (json['fieldSetSimple'] as List)
+            ?.map((e) => JsonSerializableSafety.jsonToString(e))
+            ?.toSet() ??
+        {'entry1', 'entry2'}
     ..fieldMapSimple = (json['fieldMapSimple'] as Map<String, dynamic>)?.map(
-          (k, e) => MapEntry(k, e as int),
+          (k, e) => MapEntry(k, JsonSerializableSafety.jsonToInt(e)),
         ) ??
         {'answer': 42}
     ..fieldMapListString =
         (json['fieldMapListString'] as Map<String, dynamic>)?.map(
-              (k, e) =>
-                  MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+              (k, e) => MapEntry(
+                  k,
+                  (e as List)
+                      ?.map((e) => JsonSerializableSafety.jsonToString(e))
+                      ?.toList()),
             ) ??
             {
               'root': ['child']

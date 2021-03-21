@@ -37,8 +37,12 @@ Map<String, dynamic> _$SimpleClassBigIntToJson(SimpleClassBigInt instance) =>
 
 SimpleClassBool _$SimpleClassBoolFromJson(Map<String, dynamic> json) {
   return SimpleClassBool(
-    (json['value'] as List)?.map((e) => e as bool)?.toList(),
-    (json['nullable'] as List).map((e) => e as bool).toList(),
+    (json['value'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToBool(e))
+        ?.toList(),
+    (json['nullable'] as List)
+        .map((e) => JsonSerializableSafety.jsonToBool(e))
+        .toList(),
   );
 }
 
@@ -167,8 +171,12 @@ const _$EnumTypeEnumMap = {
 
 SimpleClassInt _$SimpleClassIntFromJson(Map<String, dynamic> json) {
   return SimpleClassInt(
-    (json['value'] as List)?.map((e) => e as int)?.toList(),
-    (json['nullable'] as List).map((e) => e as int).toList(),
+    (json['value'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToInt(e))
+        ?.toList(),
+    (json['nullable'] as List)
+        .map((e) => JsonSerializableSafety.jsonToInt(e))
+        .toList(),
   );
 }
 
@@ -180,8 +188,12 @@ Map<String, dynamic> _$SimpleClassIntToJson(SimpleClassInt instance) =>
 
 SimpleClassNum _$SimpleClassNumFromJson(Map<String, dynamic> json) {
   return SimpleClassNum(
-    (json['value'] as List)?.map((e) => e as num)?.toList(),
-    (json['nullable'] as List).map((e) => e as num).toList(),
+    (json['value'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToNum(e))
+        ?.toList(),
+    (json['nullable'] as List)
+        .map((e) => JsonSerializableSafety.jsonToNum(e))
+        .toList(),
   );
 }
 
@@ -206,8 +218,12 @@ Map<String, dynamic> _$SimpleClassObjectToJson(SimpleClassObject instance) =>
 
 SimpleClassString _$SimpleClassStringFromJson(Map<String, dynamic> json) {
   return SimpleClassString(
-    (json['value'] as List)?.map((e) => e as String)?.toList(),
-    (json['nullable'] as List).map((e) => e as String).toList(),
+    (json['value'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToString(e))
+        ?.toList(),
+    (json['nullable'] as List)
+        .map((e) => JsonSerializableSafety.jsonToString(e))
+        .toList(),
   );
 }
 

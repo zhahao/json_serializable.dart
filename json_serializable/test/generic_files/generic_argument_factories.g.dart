@@ -35,8 +35,8 @@ ConcreteClass _$ConcreteClassFromJson(Map<String, dynamic> json) {
         ? null
         : GenericClassWithHelpers.fromJson(
             json['value'] as Map<String, dynamic>,
-            (value) => value as int,
-            (value) => value as String),
+            (value) => JsonSerializableSafety.jsonToInt(value),
+            (value) => JsonSerializableSafety.jsonToString(value)),
     json['value2'] == null
         ? null
         : GenericClassWithHelpers.fromJson(

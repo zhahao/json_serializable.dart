@@ -8,9 +8,9 @@ part of 'input.type_int.dart';
 
 SimpleClass _$SimpleClassFromJson(Map<String, dynamic> json) {
   return SimpleClass(
-    json['value'] as int,
-    json['nullable'] as int,
-  )..withDefault = json['withDefault'] as int ?? 42;
+    JsonSerializableSafety.jsonToInt(json['value']),
+    JsonSerializableSafety.jsonToInt(json['nullable']),
+  )..withDefault = JsonSerializableSafety.jsonToInt(json['withDefault']) ?? 42;
 }
 
 Map<String, dynamic> _$SimpleClassToJson(SimpleClass instance) =>

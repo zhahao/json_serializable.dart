@@ -8,11 +8,12 @@ part of 'kitchen_sink.g_any_map.dart';
 
 KitchenSink _$KitchenSinkFromJson(Map json) {
   return KitchenSink(
-    ctorValidatedNo42: json['no-42'] as int,
+    ctorValidatedNo42: JsonSerializableSafety.jsonToInt(json['no-42']),
     iterable: json['iterable'] as List,
     dynamicIterable: json['dynamicIterable'] as List,
     objectIterable: json['objectIterable'] as List,
-    intIterable: (json['intIterable'] as List)?.map((e) => e as int),
+    intIterable: (json['intIterable'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToInt(e)),
     dateTimeIterable: (json['datetime-iterable'] as List)
         ?.map((e) => e == null ? null : DateTime.parse(e as String)),
   )
@@ -24,23 +25,27 @@ KitchenSink _$KitchenSinkFromJson(Map json) {
     ..set = (json['set'] as List)?.toSet()
     ..dynamicSet = (json['dynamicSet'] as List)?.toSet()
     ..objectSet = (json['objectSet'] as List)?.toSet()
-    ..intSet = (json['intSet'] as List)?.map((e) => e as int)?.toSet()
+    ..intSet = (json['intSet'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToInt(e))
+        ?.toSet()
     ..dateTimeSet = (json['dateTimeSet'] as List)
         ?.map((e) => e == null ? null : DateTime.parse(e as String))
         ?.toSet()
     ..list = json['list'] as List
     ..dynamicList = json['dynamicList'] as List
     ..objectList = json['objectList'] as List
-    ..intList = (json['intList'] as List)?.map((e) => e as int)?.toList()
+    ..intList = (json['intList'] as List)
+        ?.map((e) => JsonSerializableSafety.jsonToInt(e))
+        ?.toList()
     ..dateTimeList = (json['dateTimeList'] as List)
         ?.map((e) => e == null ? null : DateTime.parse(e as String))
         ?.toList()
     ..map = json['map'] as Map
     ..stringStringMap = (json['stringStringMap'] as Map)?.map(
-      (k, e) => MapEntry(k as String, e as String),
+      (k, e) => MapEntry(k as String, JsonSerializableSafety.jsonToString(e)),
     )
     ..dynamicIntMap = (json['dynamicIntMap'] as Map)?.map(
-      (k, e) => MapEntry(k, e as int),
+      (k, e) => MapEntry(k, JsonSerializableSafety.jsonToInt(e)),
     )
     ..objectDateTimeMap = (json['objectDateTimeMap'] as Map)?.map(
       (k, e) => MapEntry(k, e == null ? null : DateTime.parse(e as String)),
@@ -63,17 +68,18 @@ KitchenSink _$KitchenSinkFromJson(Map json) {
             ))
         ?.toList()
     ..val = (json['val'] as Map)?.map(
-      (k, e) => MapEntry(k as String, e as bool),
+      (k, e) => MapEntry(k as String, JsonSerializableSafety.jsonToBool(e)),
     )
-    ..writeNotNull = json['writeNotNull'] as bool
-    ..string = json[r'$string'] as String
+    ..writeNotNull = JsonSerializableSafety.jsonToBool(json['writeNotNull'])
+    ..string = JsonSerializableSafety.jsonToString(json[r'$string'])
     ..simpleObject = json['simpleObject'] == null
         ? null
         : SimpleObject.fromJson(json['simpleObject'] as Map)
     ..strictKeysObject = json['strictKeysObject'] == null
         ? null
         : StrictKeysObject.fromJson(json['strictKeysObject'] as Map)
-    ..validatedPropertyNo42 = json['validatedPropertyNo42'] as int;
+    ..validatedPropertyNo42 =
+        JsonSerializableSafety.jsonToInt(json['validatedPropertyNo42']);
 }
 
 Map<String, dynamic> _$KitchenSinkToJson(KitchenSink instance) =>

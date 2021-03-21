@@ -9,13 +9,14 @@ part of 'kitchen_sink.g_any_map__checked__non_nullable.dart';
 KitchenSink _$KitchenSinkFromJson(Map json) {
   return $checkedNew('KitchenSink', json, () {
     final val = KitchenSink(
-      ctorValidatedNo42: $checkedConvert(json, 'no-42', (v) => v as int),
+      ctorValidatedNo42: $checkedConvert(
+          json, 'no-42', (v) => JsonSerializableSafety.jsonToInt(v)),
       iterable: $checkedConvert(json, 'iterable', (v) => v as List),
       dynamicIterable:
           $checkedConvert(json, 'dynamicIterable', (v) => v as List),
       objectIterable: $checkedConvert(json, 'objectIterable', (v) => v as List),
-      intIterable: $checkedConvert(
-          json, 'intIterable', (v) => (v as List).map((e) => e as int)),
+      intIterable: $checkedConvert(json, 'intIterable',
+          (v) => (v as List).map((e) => JsonSerializableSafety.jsonToInt(e))),
       dateTimeIterable: $checkedConvert(json, 'datetime-iterable',
           (v) => (v as List).map((e) => DateTime.parse(e as String))),
     );
@@ -28,8 +29,12 @@ KitchenSink _$KitchenSinkFromJson(Map json) {
         json, 'dynamicSet', (v) => val.dynamicSet = (v as List).toSet());
     $checkedConvert(
         json, 'objectSet', (v) => val.objectSet = (v as List).toSet());
-    $checkedConvert(json, 'intSet',
-        (v) => val.intSet = (v as List).map((e) => e as int).toSet());
+    $checkedConvert(
+        json,
+        'intSet',
+        (v) => val.intSet = (v as List)
+            .map((e) => JsonSerializableSafety.jsonToInt(e))
+            .toSet());
     $checkedConvert(
         json,
         'dateTimeSet',
@@ -38,8 +43,12 @@ KitchenSink _$KitchenSinkFromJson(Map json) {
     $checkedConvert(json, 'list', (v) => val.list = v as List);
     $checkedConvert(json, 'dynamicList', (v) => val.dynamicList = v as List);
     $checkedConvert(json, 'objectList', (v) => val.objectList = v as List);
-    $checkedConvert(json, 'intList',
-        (v) => val.intList = (v as List).map((e) => e as int).toList());
+    $checkedConvert(
+        json,
+        'intList',
+        (v) => val.intList = (v as List)
+            .map((e) => JsonSerializableSafety.jsonToInt(e))
+            .toList());
     $checkedConvert(
         json,
         'dateTimeList',
@@ -76,14 +85,16 @@ KitchenSink _$KitchenSinkFromJson(Map json) {
             .toList());
     $checkedConvert(
         json, 'val', (v) => val.val = Map<String, bool>.from(v as Map));
-    $checkedConvert(json, 'writeNotNull', (v) => val.writeNotNull = v as bool);
-    $checkedConvert(json, r'$string', (v) => val.string = v as String);
+    $checkedConvert(json, 'writeNotNull',
+        (v) => val.writeNotNull = JsonSerializableSafety.jsonToBool(v));
+    $checkedConvert(json, r'$string',
+        (v) => val.string = JsonSerializableSafety.jsonToString(v));
     $checkedConvert(json, 'simpleObject',
         (v) => val.simpleObject = SimpleObject.fromJson(v as Map));
     $checkedConvert(json, 'strictKeysObject',
         (v) => val.strictKeysObject = StrictKeysObject.fromJson(v as Map));
     $checkedConvert(json, 'validatedPropertyNo42',
-        (v) => val.validatedPropertyNo42 = v as int);
+        (v) => val.validatedPropertyNo42 = JsonSerializableSafety.jsonToInt(v));
     return val;
   }, fieldKeyMap: const {
     'ctorValidatedNo42': 'no-42',
