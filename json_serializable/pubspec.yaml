@@ -20,7 +20,7 @@ dependencies:
     git:
       url: git@github.com:zhahao/json_serializable.dart.git
       path: json_annotation/
-      ref: 'json_serializable-v3.5.1_value_safety'
+      ref: 'json_annotation-v3.1.1_value_safety'
 
   meta: ^1.1.0
   path: ^1.3.2
