@@ -40,7 +40,16 @@ class ValueHelper extends TypeHelper {
       return '($expression as num)${context.nullable ? '?' : ''}.toDouble()';
     } else if (simpleJsonTypeChecker.isAssignableFromType(targetType)) {
       final typeCode = typeToCode(targetType);
-      return '$expression as $typeCode';
+      // 兼容性判断
+      String value;
+      if (targetType.isDartCoreInt) {
+        value = '';
+      }else if (targetType.isDartCoreBool) {
+
+      }else {
+        value = '$expression as $typeCode';
+      }
+      return value;
     }
 
     return null;
