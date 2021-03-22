@@ -1,41 +1,50 @@
-[![Dart CI](https://github.com/google/json_serializable.dart/workflows/Dart%20CI/badge.svg)](https://github.com/google/json_serializable.dart/actions?query=workflow%3A%22Dart+CI%22)
+对json_serializable的`int,double，num,bool,String`类型增加了安全检查功能，对比.g.dart文件
+原来：
+```
+Person _$PersonFromJson(Map<String, dynamic> json) {
+  return Person(
+    firstName: json['firstName'] as String,
+    lastName: json[lastName'] as String,
+    age: json['age'] as int,
+  );
+}
 
-Provides [source_gen] `Generator`s to create code for JSON serialization and
-deserialization.
+```
 
-## json_serializable [![Pub Package](https://img.shields.io/pub/v/json_serializable.svg)](https://pub.dev/packages/json_serializable)
+现在：
+```
+Person _$PersonFromJson(Map<String, dynamic> json) {
+  return Person(
+    firstName: JsonSerializableSafety.jsonToString(json['firstName']),
+    lastName: JsonSerializableSafety.jsonToString(json['lastName']),
+    age: JsonSerializableSafety.jsonToInt(json['age']),
+  );
+}
+```
 
-- Package: <https://pub.dev/packages/json_serializable>
-- [Source code](json_serializable)
 
-The core package providing Generators for JSON-specific tasks.
+## 接入
 
-Import it into your pubspec `dev_dependencies:` section.
+```
+dependencies:
+  # json安全检查,导入json_annotation后导入它
+  json_serializable_safety:
+    git:
+      url: git@github.com:zhahao/json_serializable.dart.git
+      path: json_serializable_safety/
+      ref: 'json_serializable-v3.5.1_value_safety'
 
-## json_annotation [![Pub Package](https://img.shields.io/pub/v/json_annotation.svg)](https://pub.dev/packages/json_annotation)
 
-- Package: <https://pub.dev/packages/json_annotation>
-- [Source code](json_annotation)
+dev_dependencies:
+# 删除原来的json_serializable，改成它
+  json_serializable:
+    git:
+      url: git@github.com:zhahao/json_serializable.dart.git
+      path: json_serializable/
+      ref: 'json_serializable-v3.5.1_value_safety'
 
-The annotation package which has no dependencies.
+ ```
 
-Import it into your pubspec `dependencies:` section.
+ ## 使用
+ 被解析的JsonBean类型中导入`import 'package:json_serializable_safety/json_serializable_safety.dart';`,其他使用方式和对json_serializable一样
 
-## checked_yaml [![Pub Package](https://img.shields.io/pub/v/checked_yaml.svg)](https://pub.dev/packages/checked_yaml)
-
-- Package: <https://pub.dev/packages/checked_yaml>
-- [Source code](checked_yaml)
-
-Generate more helpful exceptions when decoding YAML documents using
-`package:json_serializable` and `package:yaml`.
-
-Import it into your pubspec `dependencies:` section.
-
-## example
-
-- [Source code](example)
-
-An example showing how to setup and use `json_serializable` and
-`json_annotation`.
-
-[source_gen]: https://pub.dev/packages/source_gen
