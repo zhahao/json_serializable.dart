@@ -1,0 +1,8 @@
+name: json_serializable_safety
+version: 3.5.1
+description: >-
+  Automatically generate code for converting to and from JSON by annotating
+  Dart classes.
+repository: https://github.com/google/json_serializable.dart
+environment:
+  sdk: '>=2.7.0 <3.0.0'
