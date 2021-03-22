@@ -33,7 +33,7 @@ class JsonSerializableSafety {
   }
 
   // ignore: unnecessary_null_in_if_null_operators
-  static num jsonToNum(Object v) => jsonToInt(v) ?? jsonToDouble(v) ?? null;
+  static num jsonToNum(Object v) => jsonToDouble(v) ?? jsonToInt(v) ??  null;
 
   static bool jsonToBool(Object v) {
     if (v is bool) return v;
