@@ -33,26 +33,38 @@ class JsonSerializableSafety {
   }
 
   // ignore: unnecessary_null_in_if_null_operators
-  static num jsonToNum(Object v) => jsonToDouble(v) ?? jsonToInt(v) ??  null;
+  static num jsonToNum(Object v) {
+    if (v is num) return v;
+    if (v is String) {
+      num numValue;
+      try {
+        numValue = num.parse(v);
+      } finally {}
+      return numValue;
+    } else {
+      // ignore: avoid_returning_null
+      return null;
+    }
+  }
 
   static bool jsonToBool(Object v) {
     if (v is bool) return v;
 
     if (v is String) {
-      final lowerCaseV = v.toLowerCase();
-      if (lowerCaseV == 'true' || lowerCaseV == 'yes') {
+      final lowerCaseValue = v.toLowerCase();
+      if (lowerCaseValue == 'true' || lowerCaseValue == 'yes') {
         return true;
       }
 
-      if (lowerCaseV == 'false' || lowerCaseV == 'no') {
+      if (lowerCaseValue == 'false' || lowerCaseValue == 'no') {
         return false;
       }
     }
 
-    final numV = jsonToNum(v)?.toInt();
-    if (numV == 0) {
+    final numValue = jsonToNum(v)?.toInt();
+    if (numValue == 0) {
       return false;
-    } else if (numV == 1) {
+    } else if (numValue == 1) {
       return true;
     }
 
