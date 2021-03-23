@@ -1,10 +1,10 @@
-对json_serializable的`int,double，num,bool,String`类型增加了安全检查功能，对比.g.dart文件
+对json_serializable的修改，增加对`int,double,num,bool,String`类型自动转换功能，对比.g.dart文件
 原来：
 ```
 Person _$PersonFromJson(Map<String, dynamic> json) {
   return Person(
     firstName: json['firstName'] as String,
-    lastName: json[lastName'] as String,
+    height: json['height'] as double,
     age: json['age'] as int,
   );
 }
@@ -16,7 +16,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
 Person _$PersonFromJson(Map<String, dynamic> json) {
   return Person(
     firstName: JsonSerializableSafety.jsonToString(json['firstName']),
-    lastName: JsonSerializableSafety.jsonToString(json['lastName']),
+    height: JsonSerializableSafety.jsonToDouble(json['height']),
     age: JsonSerializableSafety.jsonToInt(json['age']),
   );
 }
@@ -46,5 +46,5 @@ dev_dependencies:
  ```
 
  ## 使用
- 被解析的JsonBean类型中导入`import 'package:json_serializable_safety/json_serializable_safety.dart';`,其他使用方式和对json_serializable一样
+ 被解析的JsonBean类中导入`import 'package:json_serializable_safety/json_serializable_safety.dart';`,其他使用方式和对json_serializable一样
 
