@@ -1,4 +1,5 @@
 对json_serializable的修改，增加对`int,double,num,bool,String`类型自动转换功能，对比.g.dart文件
+
 原来：
 ```
 Person _$PersonFromJson(Map<String, dynamic> json) {
