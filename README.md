@@ -27,15 +27,6 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
 ## 接入
 
 ```
-dependencies:
-  # json安全检查,导入json_annotation后导入它
-  json_serializable_safety:
-    git:
-      url: git@github.com:zhahao/json_serializable.dart.git
-      path: json_serializable_safety/
-      ref: 'json_serializable-v3.5.1_value_safety'
-
-
 dev_dependencies:
 # 删除原来的json_serializable，改成它
   json_serializable:
@@ -47,5 +38,5 @@ dev_dependencies:
  ```
 
  ## 使用
- 被解析的JsonBean类中导入`import 'package:json_serializable_safety/json_serializable_safety.dart';`,其他使用方式和对json_serializable一样
+ 被解析的JsonBean.dart导入`import 'package:json_serializable_safety/json_serializable_safety.dart';`
 
