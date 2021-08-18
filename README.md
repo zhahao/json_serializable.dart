@@ -11,6 +11,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) {
 }
 
 ```
+如果`height`属性不是`double`类型，那么`json['height'] as double`这段代码会抛出异常，导致后面代码无法继续执行。
 
 现在：
 ```
